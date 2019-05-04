@@ -1,3 +1,7 @@
+#Author: Pedro Luiz da Silva Pereira
+#Position: Developer Java Full Stack Sr
+#Proposal: this file is used when starting update deploy at IBM Cloud DevOps,
+#to consult this App access link: https://getrecursiveurl.mybluemix.net/
 ---
 applications:
  - name: getAllURLRecursive
