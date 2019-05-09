@@ -55,7 +55,7 @@ private void fetchURL(String content) {
  * @param args
  */
 public static void main(String[] args) {
-    new Content().fetchContentFromURL("http://www.google.co.in");
+    new Content().fetchContentFromURL("https://globoesporte.globo.com/");
 }
 
 }
