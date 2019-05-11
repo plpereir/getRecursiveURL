@@ -7,5 +7,5 @@ applications:
  - name: getAllURLRecursive
    random-route: true
    path: target/getAllURLRecursive.war
-   memory: 128M
+   memory: 256M
    instances: 1

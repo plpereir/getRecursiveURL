@@ -16,10 +16,61 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/searchProcess")
-public class SearchProcess extends HttpServlet{
-	  @Override
-	  protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			    throws ServletException, IOException {
-		  response.getWriter().write("Hello World");
-	  }
+public class SearchProcess extends HttpServlet {
+	private static final String HTML_A_HREF_TAG_PATTERN = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
+	private Pattern pattern;
+	private Set<String> visitedUrls = new HashSet<String>();
+
+	public SearchProcess() {
+		pattern = Pattern.compile(HTML_A_HREF_TAG_PATTERN);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		boolean stop = false;
+
+		response.getWriter().write("<html>");
+		response.getWriter().write("<body>");
+		response.getWriter().write(
+				"collecting all links from the initial URL: "
+						+ request.getParameter("search") + "<br>");
+		String strLink = request.getParameter("search");
+		while (stop == false) {
+			String content = null;
+			URLConnection connection = null;
+			try {
+				connection = new URL(strLink).openConnection();
+				Scanner scanner = new Scanner(connection.getInputStream());
+				scanner.useDelimiter("\\Z");
+				if (scanner.hasNext()) {
+					content = scanner.next();
+					visitedUrls.add(strLink);
+					Matcher matcher = pattern.matcher(content);
+
+					while (matcher.find()) {
+						String group = matcher.group();
+						if (group.toLowerCase().contains("http")
+								|| group.toLowerCase().contains("https")) {
+							group = group.substring(group.indexOf("=") + 1);
+							group = group.replaceAll("'", "");
+							group = group.replaceAll("\"", "");
+							response.getWriter().write(group + "<br>");
+							if (!visitedUrls.contains(group)
+									&& visitedUrls.size() < 200) {
+								strLink = group;
+								stop = false;
+							} else {
+								stop = true;
+							}
+						}
+					}
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		response.getWriter().write("</body>");
+		response.getWriter().write("</html>");
+	}
 }
