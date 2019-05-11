@@ -67,7 +67,7 @@ public class SearchProcess extends HttpServlet {
 					}
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				//ex.printStackTrace();
 			}
 		}
 		response.getWriter().write("</body>");
