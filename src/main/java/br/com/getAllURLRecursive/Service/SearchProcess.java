@@ -36,7 +36,9 @@ public class SearchProcess extends HttpServlet {
 				"collecting all links from the initial URL: "
 						+ request.getParameter("search") + "<br>");
 		String strLink = request.getParameter("search");
-		while (stop == false) {
+		if (strLink.contains("http")){}else{strLink = "http://"+strLink;}
+			
+		while( (stop == false)) {
 			String content = null;
 			URLConnection connection = null;
 			try {
@@ -67,7 +69,8 @@ public class SearchProcess extends HttpServlet {
 					}
 				}
 			} catch (Exception ex) {
-				//ex.printStackTrace();
+			  	response.getWriter().write("invalid or timeout connection url");
+			  	stop=true;	
 			}
 		}
 		response.getWriter().write("</body>");
