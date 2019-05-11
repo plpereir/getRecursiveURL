@@ -17,7 +17,7 @@ public Content() {
     pattern = Pattern.compile(HTML_A_HREF_TAG_PATTERN);
 }
 
-private void fetchContentFromURL(String strLink) {
+private void fetchContentFromURL(String origin, String strLink) {
     String content = null;
     URLConnection connection = null;
     try {
@@ -27,35 +27,37 @@ private void fetchContentFromURL(String strLink) {
         if (scanner.hasNext()) {
             content = scanner.next();
             visitedUrls.add(strLink);
-            fetchURL(content);
+            fetchURL(origin, content);
         }
     } catch (Exception ex) {
         ex.printStackTrace();
     }
 }
 
-private void fetchURL(String content) {
+private void fetchURL(String origin, String content) {
     Matcher matcher = pattern.matcher(content);
+    
     while (matcher.find()) {
         String group = matcher.group();
         if (group.toLowerCase().contains("http") || group.toLowerCase().contains("https")) {
             group = group.substring(group.indexOf("=") + 1);
             group = group.replaceAll("'", "");
             group = group.replaceAll("\"", "");
-            System.out.println("lINK " + group);
+            System.out.println("origin: "+origin+" url "+ group);
             if (!visitedUrls.contains(group) && visitedUrls.size() < 200) {
-                fetchContentFromURL(group);
+            	String newOrigin = group;
+                fetchContentFromURL(newOrigin,group);
             }
         }
     }
-    System.out.println("DONE");
+    System.out.println("DONE: "+origin);
 }
 
 /**
  * @param args
  */
 public static void main(String[] args) {
-    new Content().fetchContentFromURL("https://globoesporte.globo.com/");
+    new Content().fetchContentFromURL("https://globoesporte.globo.com/","https://globoesporte.globo.com/");
 }
 
 }
