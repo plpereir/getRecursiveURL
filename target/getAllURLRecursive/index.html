@@ -53,7 +53,6 @@
 		var iframe_height = parseInt($('html').height());
 		window.parent.postMessage(iframe_height, 'https://bootsnipp.com');
 	});
-
 	function loadProcess() {
 		document.getElementById("loadingGif").style.display = "block";
 		document.getElementById("returnUrl").style.display = "none";
@@ -65,12 +64,10 @@
 			 document.getElementById("loadingGif").style.display = "none";
 		     document.getElementById("returnUrl").style.display = "block";
 		    } 
-
 		  };
 		  xhttp.open("GET", "searchProcess?search="+document.getElementById("search").value, true);
 		  xhttp.send();
 	}
-
 </script>
 
 </head>
@@ -87,7 +84,7 @@
 					<div class="section-title text-center">
 						<h2 class="title">About this App</h2>
 						<p>This app aims to recursively list all urls from the link
-							informed below, where recursively would be every time they find a
+							informed below,<br> where recursively would be every time they find a
 							link check if there are sublinks, if so, list all.</p>
 					</div>
 				</div>
@@ -113,13 +110,14 @@
 								</div>
 								<!--end of col-->
 								<div class="col">
-									<input id="search" 
-										class="form-control  form-control-borderless" type="search"
-										placeholder="type or paste url">
+									<input id="search" type="text"
+										class="form-control  form-control-borderless"
+										placeholder="type or paste url" onKeyDown="if(event.keyCode==13) loadProcess();"/>
 								</div>
 								<!--end of col-->
 								<div class="col-auto">
-									<button class="btn btn-success" type="button" id="btnSearch" onclick="loadProcess();" >Search</button>
+									<button class="btn btn-success" type="button" id="btnSearch"
+										onclick="loadProcess();">Search</button>
 								</div>
 								<!--end of col-->
 							</div>
@@ -129,8 +127,8 @@
 						<img
 							src="https://cdn-images-1.medium.com/max/1600/1*W8cj-FRc58UozzcMWqVPZw.gif" />
 					</div>
-					
-					<div class="feature-box" id="returnUrl" style="display:none">
+
+					<div class="feature-box" id="returnUrl" style="display: none">
 
 					</div>
 				</div>
