@@ -9,7 +9,6 @@ public class CoreProcess {
 		  	return true;	
 		}else
 		{
-			strLink = strLink.replace("http:", "https:");
 			return false;	
 		}
 	}

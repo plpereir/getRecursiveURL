@@ -74,6 +74,9 @@ public class SearchProcess extends HttpServlet {
 				if (stop)
 				{
 					response.getWriter().write(cp.loadResponse("invalid or timeout connection url"));
+				} else
+				{
+					strLink = strLink.replace("http:", "https:");
 				}
 				
 			}
