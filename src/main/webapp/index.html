@@ -64,7 +64,8 @@
 		     document.getElementById("returnUrl").innerHTML = this.responseText;
 			 document.getElementById("loadingGif").style.display = "none";
 		     document.getElementById("returnUrl").style.display = "block";
-		    }
+		    } 
+
 		  };
 		  xhttp.open("GET", "searchProcess?search="+document.getElementById("search").value, true);
 		  xhttp.send();
