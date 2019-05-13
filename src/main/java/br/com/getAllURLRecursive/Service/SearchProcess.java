@@ -31,7 +31,7 @@ public class SearchProcess extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		boolean stop = false;
 
-		response.getWriter().write("<h5 class='title'>collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
+		response.getWriter().write("<h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
 		response.getWriter().write("<ul class='list-group'>");
 
 		String strLink = request.getParameter("search");
@@ -62,6 +62,7 @@ public class SearchProcess extends HttpServlet {
 								strLink = group;
 								stop = false;
 							} else {
+								response.getWriter().write(cp.loadResponse("invalid or timeout connection url"));
 								stop = true;
 							}
 						}
