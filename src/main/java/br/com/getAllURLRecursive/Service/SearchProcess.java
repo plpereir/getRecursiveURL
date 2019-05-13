@@ -20,21 +20,20 @@ public class SearchProcess extends HttpServlet {
 	private static final String HTML_A_HREF_TAG_PATTERN = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
 	private Pattern pattern;
 	private Set<String> visitedUrls = new HashSet<String>();
-
+	private CoreProcess cp = new CoreProcess();
 	public SearchProcess() {
 		pattern = Pattern.compile(HTML_A_HREF_TAG_PATTERN);
 	}
+
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		boolean stop = false;
 
-		response.getWriter().write("<html>");
-		response.getWriter().write("<body>");
-		response.getWriter().write(
-				"collecting all links from the initial URL: "
-						+ request.getParameter("search") + "<br>");
+		response.getWriter().write("<h5 class='title'>collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
+		response.getWriter().write("<ul class='list-group'>");
+
 		String strLink = request.getParameter("search");
 		if (strLink.contains("http")){}else{strLink = "http://"+strLink;}
 			
@@ -57,7 +56,7 @@ public class SearchProcess extends HttpServlet {
 							group = group.substring(group.indexOf("=") + 1);
 							group = group.replaceAll("'", "");
 							group = group.replaceAll("\"", "");
-							response.getWriter().write(group + "<br>");
+							response.getWriter().write(cp.loadResponse(group));// + "<br>");
 							if (!visitedUrls.contains(group)
 									&& visitedUrls.size() < 200) {
 								strLink = group;
@@ -69,11 +68,15 @@ public class SearchProcess extends HttpServlet {
 					}
 				}
 			} catch (Exception ex) {
-			  	response.getWriter().write("invalid or timeout connection url");
-			  	stop=true;	
+
+				stop = cp.IsValidURL(strLink);
+				if (stop)
+				{
+					response.getWriter().write(cp.loadResponse("invalid or timeout connection url"));
+				}
+				
 			}
 		}
-		response.getWriter().write("</body>");
-		response.getWriter().write("</html>");
+		response.getWriter().write("</ul>");
 	}
 }
