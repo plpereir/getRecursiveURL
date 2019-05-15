@@ -70,13 +70,14 @@ public class SearchProcess extends HttpServlet {
 							group = group.substring(group.indexOf("=") + 1);
 							group = group.replaceAll("'", "");
 							group = group.replaceAll("\"", "");
+							/**
 							Document document = new Document();
 							document.setSearch(strLink);
 							document.setUrl(group);
 							document.set_rev(null);
 							document.setId(null);
 							
-							documents.add(document);
+							documents.add(document);**/
 							
 							response.getWriter().write(cp.loadResponse(group));// + "<br>");
 							if (!visitedUrls.contains(group)
@@ -100,11 +101,14 @@ public class SearchProcess extends HttpServlet {
 				{
 					strLink = strLink.replace("http:", "https:");
 				}
-				
 			}
 		}
 		response.getWriter().write("</ul>");
-		api.loadAllURLs(documents);
+		/**
+		if (!documents.isEmpty())
+		{
+			api.loadAllURLs(documents);
+		}**/
 
 	}
 }

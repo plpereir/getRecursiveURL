@@ -20,7 +20,7 @@ import com.cloudant.client.api.CloudantClient;
 
 public class API {
 	
-	private CloudantClient cloudantClient() throws IOException
+	private static CloudantClient cloudantClient() throws IOException
 	{
 //		Properties prop=new Properties(); 
 //		FileInputStream ip= new FileInputStream("config.properties");
@@ -72,7 +72,7 @@ public class API {
 		String tmp = "{ \"records\":[";
 		List<String> allDocs = client.database("listurl", false).getAllDocsRequestBuilder().build().getResponse().getDocIds();
 		for (String doc : allDocs) {
-			//System.out.println("All my docs Id : "+doc);
+			System.out.println("All my docs Id : "+doc);
 			tmp = tmp + getDocument(doc,client)+",";
 		}
 
@@ -96,6 +96,33 @@ public class API {
 		}
 	}
 	
+	public static void deleteAllDocs()
+	{
+		CloudantClient client;
+		try {
+			client = cloudantClient();
+			List<String> allDocs = client.database("listurl", false).getAllDocsRequestBuilder().build().getResponse().getDocIds();
+			for (String doc : allDocs) {
+				try {
+					System.out.println("deleted do id: "+doc);
+					JSONObject my_obj = new JSONObject(getDocument(doc,client));
+					Document findDoc = new Document();
+					findDoc.setId(my_obj.getString("_id"));
+
+					removeDocument(client, findDoc.getId());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Deleted all Documents!");
+
+	}
+	
 	public void loadAllURLs(List<Document> docs)
 	{
 		try {
@@ -109,20 +136,23 @@ public class API {
 					e.printStackTrace();
 				}
 			}
-
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 	}
-/**
+	
+	
+	
+
 	public static void main(String[] args) throws IOException, JSONException {
-		// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 	//	newDocument(cloudantClient(),"testando 0040","testando 58484");
-//		getDocument( "d16cd28516a0e8ce52a0634f200ee14e",cloudantClient());
+	//	getDocument( "05cbaea46e2c66de3301bdf9250f20df",cloudantClient());
 	//	System.out.println(getAllDocs(cloudantClient()));
-		System.out.println(getAllDocs(cloudantClient()));
-	//	System.out.println(removeDocument(cloudantClient(), "d16cd28516a0e8ce52a0634f200ee14e"));
-	}**/
+	//	System.out.println(getAllDocs(cloudantClient()));
+	//	System.out.println(removeDocument(cloudantClient(), "0bdad52829dafde4191692b81ea45a65"));
+		deleteAllDocs();
+	}
 }
