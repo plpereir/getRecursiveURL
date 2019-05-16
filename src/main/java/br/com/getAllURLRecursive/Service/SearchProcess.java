@@ -20,30 +20,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cloudant.client.api.CloudantClient;
 
+
+import com.cloudant.client.api.CloudantClient;
+/**
+ * Servlet implementation class SearchProcess
+ */
 @WebServlet("/searchProcess")
 public class SearchProcess extends HttpServlet {
-	/**
-	 * 
-	 */
+
+	private static final long serialVersionUID = 1L;
 	private static final String HTML_A_HREF_TAG_PATTERN = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
 	private Pattern pattern;
 	private Set<String> visitedUrls = new HashSet<String>();
 	private CoreProcess cp = new CoreProcess();
 	private API api = new API();
 	private List<Document> documents = new ArrayList();
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
 	public SearchProcess() {
 		pattern = Pattern.compile(HTML_A_HREF_TAG_PATTERN);
 	}
 
 
-	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean stop = false;
 		
-		CloudantClient cc = api.cloudantClient();
+		CloudantClient cc = API.cloudantClient();
+		api.deleteAllDocs();
 		
 		response.getWriter().write("<br><h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
 		response.getWriter().write("<ul class='list-group'>");
@@ -116,4 +125,13 @@ public class SearchProcess extends HttpServlet {
 		}**/
 
 	}
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
 }

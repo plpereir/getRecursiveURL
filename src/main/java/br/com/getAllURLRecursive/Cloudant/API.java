@@ -67,7 +67,7 @@ public class API {
 		}
 	}
 	
-	private static String getAllDocs(CloudantClient client) throws IOException, JSONException
+	public static String getAllDocs(CloudantClient client) throws IOException, JSONException
 	{
 
 		String tmp = "{ \"records\":[";
@@ -97,7 +97,7 @@ public class API {
 		}
 	}
 	
-	public static void deleteAllDocs()
+	public  void deleteAllDocs()
 	{
 		CloudantClient client;
 		try {

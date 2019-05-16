@@ -69,7 +69,7 @@
 		  xhttp.send();
 	}
 </script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 <body>
 	<link rel="stylesheet"
@@ -128,6 +128,33 @@
 					<div class="feature-box" id="returnUrl" style="display: none">
 
 					</div>
+					<div ng-app="myApp" ng-controller="customersCtrl"> 
+
+<table  class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">search</th>
+      <th scope="col">url</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="x in names">
+    <td>{{ x.search }}</td>
+    <td>{{ x.url }}</td>
+  </tr>
+   </tbody>
+</table>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    $http.get("getAllDocuments")
+    .then(function (response) {$scope.names = response.data.records;});
+});
+</script>
+					
 				</div>
 				<!--end of col-->
 			</div>
