@@ -27,7 +27,6 @@ public class SearchProcess extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8807087889164637690L;
 	private static final String HTML_A_HREF_TAG_PATTERN = "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
 	private Pattern pattern;
 	private Set<String> visitedUrls = new HashSet<String>();
@@ -43,6 +42,9 @@ public class SearchProcess extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		boolean stop = false;
+		
+		CloudantClient cc = api.cloudantClient();
+		
 		response.getWriter().write("<br><h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
 		response.getWriter().write("<ul class='list-group'>");
 
@@ -70,13 +72,16 @@ public class SearchProcess extends HttpServlet {
 							group = group.substring(group.indexOf("=") + 1);
 							group = group.replaceAll("'", "");
 							group = group.replaceAll("\"", "");
-							/**
+							
 							Document document = new Document();
 							document.setSearch(strLink);
 							document.setUrl(group);
 							document.set_rev(null);
 							document.setId(null);
 							
+							api.newDocument(cc,document.getSearch(),document.getUrl());
+							
+							/**
 							documents.add(document);**/
 							
 							response.getWriter().write(cp.loadResponse(group));// + "<br>");

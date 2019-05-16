@@ -20,7 +20,7 @@ import com.cloudant.client.api.CloudantClient;
 
 public class API {
 	
-	private static CloudantClient cloudantClient() throws IOException
+	public static  CloudantClient cloudantClient() throws IOException
 	{
 //		Properties prop=new Properties(); 
 //		FileInputStream ip= new FileInputStream("config.properties");
@@ -69,6 +69,7 @@ public class API {
 	
 	private static String getAllDocs(CloudantClient client) throws IOException, JSONException
 	{
+
 		String tmp = "{ \"records\":[";
 		List<String> allDocs = client.database("listurl", false).getAllDocsRequestBuilder().build().getResponse().getDocIds();
 		for (String doc : allDocs) {
@@ -123,29 +124,17 @@ public class API {
 
 	}
 	
-	public void loadAllURLs(List<Document> docs)
+	public void loadAllURLs(List<Document> docs) throws IOException
 	{
-		try {
 			CloudantClient cc = cloudantClient();
 			for (Document doc : docs) {
 				newDocument(cc,doc.getSearch(), doc.getUrl());
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 	}
 	
 	
 	
-
+/**
 	public static void main(String[] args) throws IOException, JSONException {
 	// TODO Auto-generated method stub
 	//	newDocument(cloudantClient(),"testando 0040","testando 58484");
@@ -155,4 +144,5 @@ public class API {
 	//	System.out.println(removeDocument(cloudantClient(), "0bdad52829dafde4191692b81ea45a65"));
 		deleteAllDocs();
 	}
+**/	
 }
