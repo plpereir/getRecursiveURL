@@ -1,5 +1,12 @@
 package br.com.getAllURLRecursive.Cloudant;
 
+/**
+ * 
+ * @author Pedro Luiz da Silva Pereira
+ * This class is responsible for doing the document management to facilitate the CRUD JSON. 
+ *
+ */
+
 public class Document {
 	public String id;
 	public String _rev;

@@ -143,8 +143,9 @@
 							<h5 class="title">Angular.js</h5>
 							<p>this table showing the first 10 results, because this App
 								licensed Cloudant database are subscribed to the Lite Plan.</p>
-								    <!-- Button for reloading the data -->
-    								<button class="btn btn-success" ng-click="loadNewFilter();">Angular.js refresh data now</button>
+							<!-- Button for reloading the data -->
+							<button class="btn btn-success" ng-click="loadNewFilter();">Angular.js
+								refresh data now</button>
 						</div>
 						<table class="table table-striped">
 							<thead>
@@ -175,12 +176,13 @@
 															function(response) {
 																$scope.names = response.data.records;
 															});
-										});
-$scope.loadNewFilter = function (){
+													loadNewFilter = function (){
 
   $http.get('getAllDocuments').then(function(resp) {
 		$scope.names = resp.data; console.log('[Items] Success', resp.data);
-	}, function(err) { console.error('ERR', err); }); 
+	}, function(err) { console.error('ERR', err); });		
+										});
+
   }
 										
 					</script>
