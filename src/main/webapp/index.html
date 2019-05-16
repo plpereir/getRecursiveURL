@@ -133,12 +133,7 @@
 						<img
 							src="https://cdn-images-1.medium.com/max/1600/1*W8cj-FRc58UozzcMWqVPZw.gif" />
 					</div>
-					<div class="feature-box">
-						<i class="glyph-icon flaticon-construction-34"></i>
-						<h5 class="title">AJAX</h5>
-						<p>this list showing all results by synchronous call. The
-							first 10 urls save at Cloudant database.</p>
-					</div>
+
 					<div class="feature-box" id="returnUrl" style="display: none">
 
 					</div>
@@ -149,7 +144,7 @@
 							<p>this table showing the first 10 results, because this App
 								licensed Cloudant database are subscribed to the Lite Plan.</p>
 								    <!-- Button for reloading the data -->
-    								<button ng-click="store.reload()">Reload Data</button>
+    								<button class="btn btn-success" ng-click="loadNewFilter()">Angular.js refresh data now</button>
 						</div>
 						<table class="table table-striped">
 							<thead>
@@ -181,23 +176,10 @@
 																$scope.names = response.data.records;
 															});
 										});
+$scope.loadNewFilter = function (){
+    $scope.$apply();   
+   }
 										
- var vm = this;
-vm.reload = function()        
-{           
-						var app = angular.module('myApp', []);
-						app
-								.controller(
-										'customersCtrl',
-										function($scope, $http) {
-											$http
-													.get("getAllDocuments")
-													.then(
-															function(response) {
-																$scope.names = response.data.records;
-															});
-										});        
-};
 					</script>
 
 				</div>

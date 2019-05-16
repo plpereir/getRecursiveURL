@@ -20,9 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
 import com.cloudant.client.api.CloudantClient;
+
 /**
  * Servlet implementation class SearchProcess
  */
@@ -36,21 +35,22 @@ public class SearchProcess extends HttpServlet {
 	private CoreProcess cp = new CoreProcess();
 	private API api = new API();
 	private List<Document> documents = new ArrayList();
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
 	public SearchProcess() {
 		pattern = Pattern.compile(HTML_A_HREF_TAG_PATTERN);
 	}
 
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		boolean stop = false;
-		
+
 		CloudantClient cc = API.cloudantClient();
 		try {
 			API.deleteAllDocs();
@@ -58,18 +58,28 @@ public class SearchProcess extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		response.getWriter().write("<br><h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
+
+		response.getWriter()
+				.write("<br><h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"
+						+ request.getParameter("search") + "</p>");
 		response.getWriter().write("<ul class='list-group'>");
+		response.getWriter().write("<div class='feature-box'>");
+		response.getWriter().write("<i class='glyph-icon flaticon-construction-34'></i>");
+		response.getWriter().write("<h5 class='title'>Ajax</h5>");
+		response.getWriter().write("<p>this list showing all results by synchronous call. The");
+		response.getWriter().write("first 10 urls save at Cloudant database.</p></div>");
 
 		String strLink = request.getParameter("search");
-		if (strLink.contains("http")){}else{strLink = "http://"+strLink;}
-		long t= System.currentTimeMillis();
-		long end = t+15000;
-		
-		int count=0;
-		
-		while( (stop == false) && ((System.currentTimeMillis() < end))) {
+		if (strLink.contains("http")) {
+		} else {
+			strLink = "http://" + strLink;
+		}
+		long t = System.currentTimeMillis();
+		long end = t + 15000;
+
+		int count = 0;
+
+		while ((stop == false) && ((System.currentTimeMillis() < end))) {
 			String content = null;
 			URLConnection connection = null;
 			try {
@@ -83,31 +93,29 @@ public class SearchProcess extends HttpServlet {
 
 					while (matcher.find()) {
 						String group = matcher.group();
-						if (group.toLowerCase().contains("http")
-								|| group.toLowerCase().contains("https")) {
+						if (group.toLowerCase().contains("http") || group.toLowerCase().contains("https")) {
 							group = group.substring(group.indexOf("=") + 1);
 							group = group.replaceAll("'", "");
 							group = group.replaceAll("\"", "");
-							if (count<10)
-							{
+							if (count < 10) {
 								Document document = new Document();
 								document.setSearch(strLink);
 								document.setUrl(group);
 								document.set_rev(null);
 								document.setId(null);
-								
-								api.newDocument(cc,document.getSearch(),document.getUrl());
+
+								api.newDocument(cc, document.getSearch(), document.getUrl());
 							}
 							count += 1;
-							
+
 							/**
-							documents.add(document);**/
-							
+							 * documents.add(document);
+							 **/
+
 							response.getWriter().write(cp.loadResponse(group));// + "<br>");
-							if (!visitedUrls.contains(group)
-									&& visitedUrls.size() < 200) {
+							if (!visitedUrls.contains(group) && visitedUrls.size() < 200) {
 								strLink = group;
-								end = end+15000;
+								end = end + 15000;
 								stop = false;
 							} else {
 								stop = true;
@@ -118,28 +126,26 @@ public class SearchProcess extends HttpServlet {
 			} catch (Exception ex) {
 
 				stop = cp.IsValidURL(strLink);
-				if (stop)
-				{
+				if (stop) {
 					response.getWriter().write(cp.loadResponse("invalid or timeout connection url"));
-				} else
-				{
+				} else {
 					strLink = strLink.replace("http:", "https:");
 				}
 			}
 		}
 		response.getWriter().write("</ul>");
 		/**
-		if (!documents.isEmpty())
-		{
-			api.loadAllURLs(documents);
-		}**/
+		 * if (!documents.isEmpty()) { api.loadAllURLs(documents); }
+		 **/
 
 	}
-	
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
