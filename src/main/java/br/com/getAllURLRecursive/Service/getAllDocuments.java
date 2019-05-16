@@ -48,8 +48,12 @@ public class getAllDocuments extends HttpServlet {
 		// TODO Auto-generated method stub
         API api = new API();
 		try {
+	
 			response.getWriter().append(API.getAllDocs(api.cloudantClient()));
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

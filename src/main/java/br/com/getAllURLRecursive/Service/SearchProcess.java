@@ -52,7 +52,12 @@ public class SearchProcess extends HttpServlet {
 		boolean stop = false;
 		
 		CloudantClient cc = API.cloudantClient();
-		api.deleteAllDocs();
+		try {
+			API.deleteAllDocs();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		response.getWriter().write("<br><h5 class='title text-success'>Collecting all links from the initial URL: </h5><p>"+request.getParameter("search")+"</p>");
 		response.getWriter().write("<ul class='list-group'>");
@@ -61,6 +66,8 @@ public class SearchProcess extends HttpServlet {
 		if (strLink.contains("http")){}else{strLink = "http://"+strLink;}
 		long t= System.currentTimeMillis();
 		long end = t+15000;
+		
+		int count=0;
 		
 		while( (stop == false) && ((System.currentTimeMillis() < end))) {
 			String content = null;
@@ -81,14 +88,17 @@ public class SearchProcess extends HttpServlet {
 							group = group.substring(group.indexOf("=") + 1);
 							group = group.replaceAll("'", "");
 							group = group.replaceAll("\"", "");
-							
-							Document document = new Document();
-							document.setSearch(strLink);
-							document.setUrl(group);
-							document.set_rev(null);
-							document.setId(null);
-							
-							api.newDocument(cc,document.getSearch(),document.getUrl());
+							if (count<10)
+							{
+								Document document = new Document();
+								document.setSearch(strLink);
+								document.setUrl(group);
+								document.set_rev(null);
+								document.setId(null);
+								
+								api.newDocument(cc,document.getSearch(),document.getUrl());
+							}
+							count += 1;
 							
 							/**
 							documents.add(document);**/

@@ -67,7 +67,7 @@ public class API {
 		}
 	}
 	
-	public static String getAllDocs(CloudantClient client) throws IOException, JSONException
+	public static String getAllDocs(CloudantClient client) throws IOException, JSONException, InterruptedException
 	{
 
 		String tmp = "{ \"records\":[";
@@ -97,7 +97,7 @@ public class API {
 		}
 	}
 	
-	public  void deleteAllDocs()
+	public static  void deleteAllDocs() throws InterruptedException
 	{
 		CloudantClient client;
 		try {
@@ -124,7 +124,7 @@ public class API {
 
 	}
 	
-	public void loadAllURLs(List<Document> docs) throws IOException
+	public void loadAllURLs(List<Document> docs) throws IOException, InterruptedException
 	{
 			CloudantClient cc = cloudantClient();
 			for (Document doc : docs) {
@@ -135,7 +135,7 @@ public class API {
 	
 	
 /**
-	public static void main(String[] args) throws IOException, JSONException {
+	public static void main(String[] args) throws IOException, JSONException, InterruptedException {
 	// TODO Auto-generated method stub
 	//	newDocument(cloudantClient(),"testando 0040","testando 58484");
 	//	getDocument( "05cbaea46e2c66de3301bdf9250f20df",cloudantClient());
@@ -144,5 +144,5 @@ public class API {
 	//	System.out.println(removeDocument(cloudantClient(), "0bdad52829dafde4191692b81ea45a65"));
 		deleteAllDocs();
 	}
-**/	
+	**/
 }

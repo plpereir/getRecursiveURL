@@ -56,20 +56,24 @@
 	function loadProcess() {
 		document.getElementById("loadingGif").style.display = "block";
 		document.getElementById("returnUrl").style.display = "none";
-		
-		  var xhttp = new XMLHttpRequest();
-		  xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		     document.getElementById("returnUrl").innerHTML = this.responseText;
-			 document.getElementById("loadingGif").style.display = "none";
-		     document.getElementById("returnUrl").style.display = "block";
-		    } 
-		  };
-		  xhttp.open("GET", "searchProcess?search="+document.getElementById("search").value, true);
-		  xhttp.send();
+		document.getElementById("tableUrl").style.display = "none";
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("returnUrl").innerHTML = this.responseText;
+				document.getElementById("loadingGif").style.display = "none";
+				document.getElementById("returnUrl").style.display = "block";
+				document.getElementById("tableUrl").style.display = "block";
+			}
+		};
+		xhttp.open("GET", "searchProcess?search="
+				+ document.getElementById("search").value, true);
+		xhttp.send();
 	}
 </script>
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 <body>
 	<link rel="stylesheet"
@@ -83,21 +87,25 @@
 				<div class="col-sm-12">
 					<div class="section-title text-center">
 						<h2 class="title">About this App</h2>
-						<p>This app aims to recursively list all urls from the link
-							informed below,<br> where recursively would be every time they find a
-							link check if there are sublinks, if so, list all.</p>
+						<p>
+							This app aims to recursively list all urls from the link informed
+							below,<br> where recursively would be every time they find a
+							link check if there are sublinks, if so, list all.
+						</p>
 					</div>
 				</div>
 				<div class="col-sm-12">
 					<div class="feature-box">
 						<i class="glyph-icon flaticon-construction-34"></i>
 						<h5 class="title">Other Goals</h5>
-						<p>Each finded link the BackEnd this app is save at IBM Cloudant Database (No SQL).</p>
+						<p>Each finded link the BackEnd this app is save at IBM
+							Cloudant Database (No SQL).</p>
 					</div>
 					<div class="feature-box">
 						<i class="glyph-icon flaticon-shield"></i>
 						<h5 class="title">How showing list?</h5>
-						<p>After process, showing to final user the result as Angular.js.</p>
+						<p>After process, showing to final user the result as
+							Angular.js.</p>
 					</div>
 					<div>
 						<form class="card card-sm">
@@ -109,7 +117,8 @@
 								<div class="col">
 									<input id="search" type="text"
 										class="form-control  form-control-borderless"
-										placeholder="type or paste url" onKeyDown="if(event.keyCode==13) loadProcess();"/>
+										placeholder="type or paste url"
+										onKeyDown="if(event.keyCode==13) loadProcess();" />
 								</div>
 								<!--end of col-->
 								<div class="col-auto">
@@ -124,10 +133,73 @@
 						<img
 							src="https://cdn-images-1.medium.com/max/1600/1*W8cj-FRc58UozzcMWqVPZw.gif" />
 					</div>
-
+					<div class="feature-box">
+						<i class="glyph-icon flaticon-construction-34"></i>
+						<h5 class="title">AJAX</h5>
+						<p>this list showing all results by synchronous call. The
+							first 10 urls save at Cloudant database.</p>
+					</div>
 					<div class="feature-box" id="returnUrl" style="display: none">
 
 					</div>
+					<div ng-app="myApp" ng-controller="customersCtrl" id="tableUrl">
+						<div class="feature-box">
+							<i class="glyph-icon flaticon-construction-34"></i>
+							<h5 class="title">Angular.js</h5>
+							<p>this table showing the first 10 results, because this App
+								licensed Cloudant database are subscribed to the Lite Plan.</p>
+								    <!-- Button for reloading the data -->
+    								<button ng-click="store.reload()">Reload Data</button>
+						</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">search</th>
+									<th scope="col">url</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="x in names">
+									<td>{{ x.search }}</td>
+									<td>{{ x.url }}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+
+					<script>
+						var app = angular.module('myApp', []);
+						app
+								.controller(
+										'customersCtrl',
+										function($scope, $http) {
+											$http
+													.get("getAllDocuments")
+													.then(
+															function(response) {
+																$scope.names = response.data.records;
+															});
+										});
+										
+ var vm = this;
+vm.reload = function()        
+{           
+						var app = angular.module('myApp', []);
+						app
+								.controller(
+										'customersCtrl',
+										function($scope, $http) {
+											$http
+													.get("getAllDocuments")
+													.then(
+															function(response) {
+																$scope.names = response.data.records;
+															});
+										});        
+};
+					</script>
+
 				</div>
 				<!--end of col-->
 			</div>
@@ -136,7 +208,8 @@
 		<div class="text-right">
 			<div class="">
 				<div class="">
-					<a target="_blank" href="architecture.pdf">More details about architecture, click here</a>
+					<a target="_blank" href="architecture.pdf">More details about
+						architecture, click here</a>
 					<p class="text-muted">Pedro Luiz da Silva Pereira</p>
 				</div>
 			</div>
