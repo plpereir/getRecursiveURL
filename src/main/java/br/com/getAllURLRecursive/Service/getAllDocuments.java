@@ -1,5 +1,8 @@
 package br.com.getAllURLRecursive.Service;
 
+/*
+ */
+
 import br.com.getAllURLRecursive.Cloudant.API;
 import br.com.getAllURLRecursive.Cloudant.Document;
 
@@ -26,6 +29,9 @@ import com.cloudant.client.api.CloudantClient;
 
 
 /**
+ * Author: Pedro Luiz da Silva Pereira
+ * this class return informations in JSON format to request Angular.js
+ * 
  * Servlet implementation class getAllDocuments
  */
 @WebServlet("/getAllDocuments")

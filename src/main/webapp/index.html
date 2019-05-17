@@ -104,8 +104,8 @@
 					<div class="feature-box">
 						<i class="glyph-icon flaticon-shield"></i>
 						<h5 class="title">How showing list?</h5>
-						<p>After process, showing to final user the result as
-							Angular.js.</p>
+						<p>After process, showing to final user the result as 
+							Ajax  (all items) and Angular.js (top 10 items limited database license).</p>
 					</div>
 					<div>
 						<form class="card card-sm">
@@ -137,15 +137,14 @@
 					<div class="feature-box" id="returnUrl" style="display: none">
 
 					</div>
-					<div ng-app="myApp" ng-controller="customersCtrl" id="tableUrl">
+					<div ng-app="myApp" ng-controller="customersCtrl" id="tableUrl" style="display:none">
 						<div class="feature-box">
 							<i class="glyph-icon flaticon-construction-34"></i>
 							<h5 class="title">Angular.js</h5>
 							<p>this table showing the first 10 results, because this App
 								licensed Cloudant database are subscribed to the Lite Plan.</p>
-							<!-- Button for reloading the data -->
-							<button class="btn btn-success" ng-click="loadNewFilter();">Angular.js
-								refresh data now</button>
+								    <!-- Button for reloading the data -->
+    								<button class="btn btn-success" ng-click="refreshItems();">Angular.js refresh data now</button>
 						</div>
 						<table class="table table-striped">
 							<thead>
@@ -176,15 +175,18 @@
 															function(response) {
 																$scope.names = response.data.records;
 															});
-													loadNewFilter = function (){
+																$scope.refreshItems = function() {
 
-  $http.get('getAllDocuments').then(function(resp) {
-		$scope.names = resp.data; console.log('[Items] Success', resp.data);
-	}, function(err) { console.error('ERR', err); });		
+	console.log("Refreshing items!");
+
+	$http.get('getAllDocuments').then(function(resp) {
+		$scope.names = resp.data.records; console.log('[Items] Success', resp.data);
+	}, function(err) { console.error('ERR', err); });
+	
+};
 										});
-
-  }
-										
+									
+								
 					</script>
 
 				</div>

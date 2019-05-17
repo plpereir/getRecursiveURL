@@ -1,5 +1,12 @@
 package br.com.getAllURLRecursive.Service;
 
+/**
+ * 
+ * @author Pedro Luiz da Silva Pereira
+ * this class is responsible to valid url and support tag html return ajax.
+ *
+ */
+
 public class CoreProcess {
 	
 	public boolean IsValidURL(String strLink)

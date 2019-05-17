@@ -10,6 +10,13 @@ import org.junit.Test;
 
 import br.com.getAllURLRecursive.Service.CoreProcess;
  
+/**
+ * 
+ * @author Pedro Luiz da Silva Pereira
+ * this class to unit Test this app
+ *
+ */
+
 public class SearchProcessTest {
     private static CoreProcess coreProcess;
     

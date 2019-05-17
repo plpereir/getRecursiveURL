@@ -7,6 +7,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author Pedro Luiz da Silva Pereira
+ * this class use to client java application to get recursive urls from initial url.
+ */
+
 public class Content {
 private static final String HTML_A_HREF_TAG_PATTERN =
         "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";

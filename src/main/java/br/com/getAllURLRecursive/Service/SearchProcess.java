@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.cloudant.client.api.CloudantClient;
 
 /**
+ * Author: Pedro Luiz da Silva Pereira
+ * this class received url from Front End, and process recursive url links, and return list all items to request synchronous call (AJAX).
+ * 
  * Servlet implementation class SearchProcess
  */
 @WebServlet("/searchProcess")
