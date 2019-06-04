@@ -69,7 +69,7 @@ public class SearchProcess extends HttpServlet {
 		response.getWriter().write("<div class='feature-box'>");
 		response.getWriter().write("<i class='glyph-icon flaticon-construction-34'></i>");
 		response.getWriter().write("<h5 class='title'>Ajax</h5>");
-		response.getWriter().write("<p>this list showing all results by synchronous call. The");
+		response.getWriter().write("<p>this list showing all results by synchronous call. The ");
 		response.getWriter().write("first 10 urls save at Cloudant database.</p></div>");
 
 		String strLink = request.getParameter("search");
